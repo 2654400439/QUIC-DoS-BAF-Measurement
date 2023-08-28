@@ -10,10 +10,16 @@ A tool for measuring the magnification of QUIC(http3、doq) initial-packet refle
 ### 部署运行方式
 1. 首先请确保你已经安装并且配置好了[aioquic](https://github.com/aiortc/aioquic)。安装完成aioquic后你需要根据readme提示执行examples文件夹下的http3_server.py和http3_client.py，以验证aioquic是否能正常运行。
 2. 开启网络抓包工具（推荐wireshark）监听正确的网卡，用于收发分离架构下的数据包捕获。
-3. 执行脚本向目标ip:port发送QUIC的init包，注意对于http3需要提供SNI
+3. 执行脚本向目标ip:port发送QUIC的init包，注意对于http3需要提供SNI。推荐将本项目下的代码放到aioquic/examples下。执行下面代码可开启测量。
 
-```
-for (let i = 1; i <= 10; i++) {
-  console.log(i);
-}
-```
+测量http3服务端：
+
+`python examples/QUIC_BAF_Measure.py --ca-certs tests/pycacert.pem  --host 1.2.3.4 --port 443 --server-name "www.example.com"`
+
+测量doq服务端：
+
+`python examples/QUIC_BAF_Measure.py --ca-certs tests/pycacert.pem  --host 1.2.3.4 --port 443`
+
+4. (可选)使用QUIC_BAF_Measure_batch.py进行批量处理。
+5. 结束发包测量。收集整理抓包工具中获得的相关数据包，按照ip、端口过滤。
+6. 使用QUIC_BAF_Measure_Analysis.py进行数据分析。
